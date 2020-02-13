@@ -1,0 +1,200 @@
+{
+  "intents": [],
+  "entities": [
+    {
+      "entity": "sys-number",
+      "values": [],
+      "fuzzy_match": true
+    }
+  ],
+  "metadata": {
+    "api_version": {
+      "major_version": "v2",
+      "minor_version": "2018-11-08"
+    }
+  },
+  "dialog_nodes": [
+    {
+      "type": "standard",
+      "title": "Correct Guess",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "You got it! My number was $number. It took you $counter <? $counter == 1 ? 'guess' : 'guesses' ?>."
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          },
+          {
+            "values": [
+              {
+                "text": "Let’s play again!"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "body",
+        "dialog_node": "Welcome"
+      },
+      "conditions": "@sys-number == $number",
+      "dialog_node": "node_6_1581466250341",
+      "previous_sibling": "node_1_1581465858519"
+    },
+    {
+      "type": "standard",
+      "title": "High Guess",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Hmmm, @sys-number? Too high."
+              },
+              {
+                "text": "@sys-number is too high!"
+              },
+              {
+                "text": "@sys-number... too high."
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "random"
+          }
+        ]
+      },
+      "context": {
+        "counter": "<? $counter + 1 ?>"
+      },
+      "conditions": "@sys-number > $number",
+      "dialog_node": "node_7_1581465709276",
+      "previous_sibling": "node_4_1581465901956"
+    },
+    {
+      "type": "standard",
+      "title": "Not a Numeric Guess",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "That doesn't look like a number. Try to guess my number!"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "conditions": "!@sys-number && @sys-number != 0",
+      "dialog_node": "node_5_1581466585595",
+      "previous_sibling": "Welcome"
+    },
+    {
+      "type": "standard",
+      "title": "Guess Out of Bounds",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "My number is between $min and $max. Guess again!"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "conditions": "@sys-number < $min || @sys-number > $max",
+      "dialog_node": "node_4_1581465901956",
+      "previous_sibling": "node_5_1581466585595"
+    },
+    {
+      "type": "standard",
+      "title": "Low Guess",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "@sys-number is too low."
+              },
+              {
+                "text": "@sys-number? Too low!"
+              },
+              {
+                "text": "Ah, @sys-number: too low."
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "random"
+          }
+        ]
+      },
+      "context": {
+        "counter": "<? $counter + 1 ?>"
+      },
+      "conditions": "@sys-number < $number",
+      "dialog_node": "node_1_1581465858519",
+      "previous_sibling": "node_7_1581465709276"
+    },
+    {
+      "type": "standard",
+      "title": "Starrt",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "I’m thinking of a number between $min and $max. Guess what it is!"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "context": {
+        "max": 100,
+        "min": 1,
+        "number": "<? new Random().nextInt($max) + 1 ?>",
+        "counter": 1
+      },
+      "conditions": "welcome",
+      "dialog_node": "Welcome"
+    }
+  ],
+  "counterexamples": [],
+  "system_settings": {
+    "off_topic": {
+      "enabled": true
+    },
+    "disambiguation": {
+      "prompt": "Did you mean:",
+      "enabled": true,
+      "randomize": true,
+      "max_suggestions": 5,
+      "suggestion_text_policy": "title",
+      "none_of_the_above_prompt": "None of the above"
+    },
+    "system_entities": {
+      "enabled": true
+    },
+    "human_agent_assist": {
+      "prompt": "Did you mean:"
+    },
+    "spelling_auto_correct": true
+  },
+  "learning_opt_out": false,
+  "name": "Watson Assistant Weekly Challenge 1",
+  "language": "en",
+  "description": "Watson Assistant Weekly Challenge Skill"
+}
