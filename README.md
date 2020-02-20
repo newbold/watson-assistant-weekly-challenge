@@ -4,7 +4,8 @@ _A weekly learning exercise for IBM Watson Assistant developers_
 
 ## Challenges
 
-1. [Week 1](https://github.com/newbold/watson-assistant-weekly-challenge/blob/master/challenges/1/skill-Watson-Assistant-Weekly-Challenge-1.json)
+* [Week 2](https://github.com/newbold/watson-assistant-weekly-challenge/blob/master/challenges/2/skill-Watson-Assistant-Weekly-Challenge-2.json)
+* [Week 1](https://github.com/newbold/watson-assistant-weekly-challenge/blob/master/challenges/1/skill-Watson-Assistant-Weekly-Challenge-1.json)
 
 ## Interested in participating?
 
