@@ -1,0 +1,317 @@
+{
+  "intents": [
+    {
+      "intent": "stock-quote",
+      "examples": [
+        {
+          "text": "Stock price for AXP",
+          "mentions": [
+            {
+              "entity": "symbol",
+              "location": [
+                16,
+                19
+              ]
+            }
+          ]
+        },
+        {
+          "text": "Stock price for BA",
+          "mentions": [
+            {
+              "entity": "symbol",
+              "location": [
+                16,
+                18
+              ]
+            }
+          ]
+        },
+        {
+          "text": "Stock price for CAT",
+          "mentions": [
+            {
+              "entity": "symbol",
+              "location": [
+                16,
+                19
+              ]
+            }
+          ]
+        },
+        {
+          "text": "Stock price for DIS",
+          "mentions": [
+            {
+              "entity": "symbol",
+              "location": [
+                16,
+                19
+              ]
+            }
+          ]
+        },
+        {
+          "text": "Stock price for IBM",
+          "mentions": [
+            {
+              "entity": "symbol",
+              "location": [
+                16,
+                19
+              ]
+            }
+          ]
+        },
+        {
+          "text": "Stock price for KO",
+          "mentions": [
+            {
+              "entity": "symbol",
+              "location": [
+                16,
+                18
+              ]
+            }
+          ]
+        },
+        {
+          "text": "Stock price for MCD",
+          "mentions": [
+            {
+              "entity": "symbol",
+              "location": [
+                16,
+                19
+              ]
+            }
+          ]
+        },
+        {
+          "text": "Stock price for NKE",
+          "mentions": [
+            {
+              "entity": "symbol",
+              "location": [
+                16,
+                19
+              ]
+            }
+          ]
+        },
+        {
+          "text": "Stock price for V",
+          "mentions": [
+            {
+              "entity": "symbol",
+              "location": [
+                16,
+                17
+              ]
+            }
+          ]
+        },
+        {
+          "text": "Stock price for VZ",
+          "mentions": [
+            {
+              "entity": "symbol",
+              "location": [
+                16,
+                18
+              ]
+            }
+          ]
+        },
+        {
+          "text": "Stock price for XOM",
+          "mentions": [
+            {
+              "entity": "symbol",
+              "location": [
+                16,
+                19
+              ]
+            }
+          ]
+        }
+      ],
+      "description": ""
+    }
+  ],
+  "entities": [
+    {
+      "entity": "sys-number",
+      "values": [],
+      "fuzzy_match": true
+    },
+    {
+      "entity": "symbol",
+      "values": [
+        {
+          "type": "synonyms",
+          "value": "IBM",
+          "synonyms": []
+        },
+        {
+          "type": "synonyms",
+          "value": "MCD",
+          "synonyms": []
+        },
+        {
+          "type": "synonyms",
+          "value": "NKE",
+          "synonyms": []
+        },
+        {
+          "type": "synonyms",
+          "value": "XOM",
+          "synonyms": []
+        },
+        {
+          "type": "synonyms",
+          "value": "AXP",
+          "synonyms": []
+        },
+        {
+          "type": "synonyms",
+          "value": "VZ",
+          "synonyms": []
+        },
+        {
+          "type": "synonyms",
+          "value": "BA",
+          "synonyms": []
+        },
+        {
+          "type": "synonyms",
+          "value": "V",
+          "synonyms": []
+        },
+        {
+          "type": "synonyms",
+          "value": "CAT",
+          "synonyms": []
+        },
+        {
+          "type": "synonyms",
+          "value": "DIS",
+          "synonyms": []
+        },
+        {
+          "type": "synonyms",
+          "value": "KO",
+          "synonyms": []
+        }
+      ],
+      "fuzzy_match": true
+    }
+  ],
+  "metadata": {
+    "api_version": {
+      "major_version": "v2",
+      "minor_version": "2018-11-08"
+    }
+  },
+  "webhooks": [
+    {
+      "url": "https://fd5d9518.us-south.apigw.appdomain.cloud/stock-quote/stock-quote",
+      "name": "main_webhook",
+      "headers": []
+    }
+  ],
+  "dialog_nodes": [
+    {
+      "type": "response_condition",
+      "output": {
+        "text": {
+          "values": [
+            "Sorry, I couldn’t find a price for @symbol. Try another one?"
+          ],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_3_1582902205977",
+      "conditions": "anything_else",
+      "dialog_node": "response_6_1583519795022",
+      "previous_sibling": "response_10_1582902434853"
+    },
+    {
+      "type": "response_condition",
+      "output": {
+        "text": {
+          "values": [
+            "@symbol last traded at $$price.price."
+          ],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_3_1582902205977",
+      "conditions": "$price.price != \"0.00\"",
+      "dialog_node": "response_10_1582902434853"
+    },
+    {
+      "type": "standard",
+      "title": "Stock Quote Lookup",
+      "actions": [
+        {
+          "name": "main_webhook",
+          "type": "webhook",
+          "parameters": {
+            "apikey": "change_me",
+            "symbol": "@symbol"
+          },
+          "result_variable": "price"
+        }
+      ],
+      "metadata": {
+        "_customization": {
+          "mcr": true
+        }
+      },
+      "conditions": "#stock-quote",
+      "dialog_node": "node_3_1582902205977",
+      "previous_sibling": "Welcome"
+    },
+    {
+      "type": "standard",
+      "title": "Prompt",
+      "output": {
+        "text": {
+          "values": [
+            "Hi, how can I help you?"
+          ],
+          "selection_policy": "sequential"
+        }
+      },
+      "context": {},
+      "conditions": "welcome",
+      "dialog_node": "Welcome"
+    }
+  ],
+  "counterexamples": [],
+  "system_settings": {
+    "off_topic": {
+      "enabled": true
+    },
+    "disambiguation": {
+      "prompt": "Did you mean:",
+      "enabled": true,
+      "randomize": true,
+      "max_suggestions": 5,
+      "suggestion_text_policy": "title",
+      "none_of_the_above_prompt": "None of the above"
+    },
+    "system_entities": {
+      "enabled": true
+    },
+    "human_agent_assist": {
+      "prompt": "Did you mean:"
+    },
+    "spelling_auto_correct": true
+  },
+  "learning_opt_out": false,
+  "name": "Watson Assistant Weekly Challenge 4",
+  "language": "en",
+  "description": "Watson Assistant Weekly Challenge Skill"
+}
